@@ -16,6 +16,16 @@
     <url-pattern>/fotostream/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>currentImageURLServlet</servlet-name>
+  	<servlet-class>net.molez.mandlm.fotostream.server.CurrentImageURLServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>currentImageURLServlet</servlet-name>
+  	<url-pattern>/fotostream/currentImageURL</url-pattern>
+  </servlet-mapping>
+
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>FotoStream.html</welcome-file>

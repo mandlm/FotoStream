@@ -8,10 +8,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -32,6 +35,7 @@ public class FotoStream implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
 	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	private final CurrentImageURLServiceAsync imageURLService = GWT.create(CurrentImageURLService.class);
 
 	/**
 	 * This is the entry point method.
@@ -41,15 +45,47 @@ public class FotoStream implements EntryPoint {
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
 		final Label errorLabel = new Label();
+		
+		final Image image = new Image();
+		image.setVisible(false);
+		image.addLoadHandler(new LoadHandler() 
+		{
+			@Override
+			public void onLoad(LoadEvent event) 
+			{
+				image.setVisible(true);
+				image.setWidth("100%");
+			}
+		});
+		
+		imageURLService.getCurrentImageURL(new AsyncCallback<String>()
+		{
+			@Override
+			public void onFailure(Throwable caught) 
+			{
+				DialogBox errorMsg = new DialogBox();
+				
+				errorMsg.setTitle("Error loading current immage");
+				errorMsg.setHTML(caught.getMessage());
+				errorMsg.show();
+			}
+
+			@Override
+			public void onSuccess(String result) 
+			{
+				image.setUrl(result);
+			}			
+		});
 
 		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
+		sendButton.addStyleName("sendButton");		
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("nameFieldContainer").add(nameField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
+		RootPanel.get("imageContainer").add(image);
 
 		// Focus the cursor on the name field when the app loads
 		nameField.setFocus(true);
