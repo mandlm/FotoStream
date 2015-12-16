@@ -14,7 +14,8 @@ public class FotoStream implements EntryPoint
 {
 	private final CurrentImageURLServiceAsync imageURLService = GWT.create(CurrentImageURLService.class);
 
-	public void onModuleLoad() {
+	public void onModuleLoad() 
+	{
 		final Image image = new Image();
 		image.setVisible(false);
 		image.addLoadHandler(new LoadHandler() 
@@ -56,7 +57,7 @@ public class FotoStream implements EntryPoint
 			}	
 		};
 		
-		imageReloadTimer.scheduleRepeating(2000);
+		imageReloadTimer.scheduleRepeating(5000);
 		
 		RootPanel.get("imageContainer").add(image);
 	}
