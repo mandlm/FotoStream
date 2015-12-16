@@ -1,7 +1,6 @@
 package net.molez.mandlm.fotostream.server;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 import java.util.Random;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -13,11 +12,10 @@ public class CurrentImageURLServiceImpl extends RemoteServiceServlet implements 
 {
 	public String getCurrentImageURL() 
 	{
-		List<String> fileList = new ArrayList<String>();
+		File imageFolder = new File("img/");
 		
-		fileList.add("img/dummy_1.jpg");
-		fileList.add("img/dummy_2.jpg");
+		File[] fileList = imageFolder.listFiles();
 		
-		return fileList.get(new Random().nextInt(fileList.size()));
+		return fileList[new Random().nextInt(fileList.length)].getPath();
 	}
 }
