@@ -7,9 +7,7 @@ import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class FotoStream implements EntryPoint 
@@ -18,10 +16,6 @@ public class FotoStream implements EntryPoint
 
 	public void onModuleLoad() 
 	{
-		final Label label = new Label();
-		RootPanel.get("textContainer").add(label);
-		
-		
 		final Image image = new Image();
 		image.setVisible(false);
 		image.addLoadHandler(new LoadHandler() 
@@ -29,27 +23,24 @@ public class FotoStream implements EntryPoint
 			@Override
 			public void onLoad(LoadEvent event) 
 			{
-				int clientHeight = Window.getClientHeight();
 				int clientWidth = Window.getClientWidth();
-				
-				int imageHeight = image.getHeight();
-				int imageWidth = image.getWidth();
-				
-				double heightScale = (double)clientHeight / (double)imageHeight;
-				double widthScale = (double)clientWidth / (double)imageWidth;
-				
-				double scale = Math.min(heightScale, widthScale);
+				int clientHeight = Window.getClientHeight();
 
-				int targetWidth = (int) (scale * (double)imageWidth);
-				int targetHeight = (int) (scale * (double)imageHeight);
+				double clientAspect = (double)clientWidth / (double)clientHeight;
 				
-				label.setText(
-						"Client: " + clientWidth + "x" + clientHeight + " " +
-						"Image: " + imageWidth + "x" + imageHeight + " " +
-						"Target: " + targetWidth + "x" + targetHeight);
+				int imageWidth = image.getOffsetWidth();
+				int imageHeight = image.getOffsetHeight();
 				
+				double imageAspect = (double)imageWidth / (double)imageHeight;
+
+				int widthScalePercent = 100;
+				if (imageAspect > 0 && clientAspect > 0 && imageAspect < clientAspect)
+				{
+					widthScalePercent = (int)(((double)imageAspect / (double)clientAspect) * 100.0);
+				}
+
 				image.setVisible(true);
-				image.setWidth("50%");
+				image.setWidth(widthScalePercent + "%");
 			}
 		});
 		
@@ -63,11 +54,7 @@ public class FotoStream implements EntryPoint
 					@Override
 					public void onFailure(Throwable caught) 
 					{
-						DialogBox errorMsg = new DialogBox();
-						
-						errorMsg.setTitle("Error loading image");
-						errorMsg.setHTML(caught.getMessage());
-						errorMsg.show();
+						image.setUrl("img/no_image.png");
 					}
 
 					@Override

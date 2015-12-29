@@ -50,6 +50,11 @@ public class CurrentImageURLServiceImpl extends RemoteServiceServlet implements 
 		
 		readImageFiles();
 		
+		if (imageFiles.isEmpty())
+		{
+			return "img/no_image.png";
+		}
+		
 		File latestFile = imageFiles.get(imageFiles.size() - 1);
 		Date latestFileDate = new Date(latestFile.lastModified());
 		
