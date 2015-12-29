@@ -20,12 +20,13 @@ public class CurrentImageNameServiceImpl extends RemoteServiceServlet implements
 	{
 		imageFiles.clear();
 		
-		File imageFolder = new File("img/");
+		File imageFolder = new File("img");
 		File[] files = imageFolder.listFiles();
 		
 		for (File imageFile : files)
 		{
-			if (imageFile.isFile() && imageFile.getName().endsWith(".jpg"))
+			if (imageFile.isFile() && 
+					imageFile.getName().endsWith(".jpg") || imageFile.getName().endsWith(".JPG"))
 			{
 				imageFiles.add(imageFile);
 			}
@@ -52,7 +53,7 @@ public class CurrentImageNameServiceImpl extends RemoteServiceServlet implements
 		
 		if (imageFiles.isEmpty())
 		{
-			return "img/no_image.png";
+			return null;
 		}
 		
 		File latestFile = imageFiles.get(imageFiles.size() - 1);
