@@ -9,10 +9,10 @@ import java.util.Random;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import net.molez.mandlm.fotostream.client.CurrentImageURLService;
+import net.molez.mandlm.fotostream.client.CurrentImageNameService;
 
 @SuppressWarnings("serial")
-public class CurrentImageURLServiceImpl extends RemoteServiceServlet implements CurrentImageURLService 
+public class CurrentImageNameServiceImpl extends RemoteServiceServlet implements CurrentImageNameService 
 {
 	private List<File> imageFiles = new ArrayList<File>();
 	
@@ -44,7 +44,7 @@ public class CurrentImageURLServiceImpl extends RemoteServiceServlet implements 
 		});		
 	}
 	
-	public String getCurrentImageURL() 
+	public String getCurrentImageName() 
 	{
 		int newImageSeconds = 60;
 		
@@ -60,11 +60,11 @@ public class CurrentImageURLServiceImpl extends RemoteServiceServlet implements 
 		
 		if (latestFileDate.before(new Date(new Date().getTime() - newImageSeconds * 1000)))
 		{
-			return imageFiles.get(new Random().nextInt(imageFiles.size())).getPath();
+			return imageFiles.get(new Random().nextInt(imageFiles.size())).getName();
 		}
 		else
 		{
-			return latestFile.getPath();
+			return latestFile.getName();
 		}
 	}
 }

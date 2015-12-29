@@ -8,13 +8,23 @@
   <!-- Servlets -->
   
   <servlet>
-  	<servlet-name>currentImageURLServlet</servlet-name>
-  	<servlet-class>net.molez.mandlm.fotostream.server.CurrentImageURLServiceImpl</servlet-class>
+  	<servlet-name>currentImageNameServlet</servlet-name>
+  	<servlet-class>net.molez.mandlm.fotostream.server.CurrentImageNameServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-  	<servlet-name>currentImageURLServlet</servlet-name>
-  	<url-pattern>/fotostream/currentImageURL</url-pattern>
+  	<servlet-name>currentImageNameServlet</servlet-name>
+  	<url-pattern>/fotostream/currentImageName</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ImageServlet</servlet-name>
+    <servlet-class>net.molez.mandlm.fotostream.server.ImageServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+  	<servlet-name>ImageServlet</servlet-name>
+  	<url-pattern>/image</url-pattern>
   </servlet-mapping>
 
   <!-- Default page to serve -->

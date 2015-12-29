@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class FotoStream implements EntryPoint 
 {
-	private final CurrentImageURLServiceAsync imageURLService = GWT.create(CurrentImageURLService.class);
+	private final CurrentImageNameServiceAsync imageNameService = GWT.create(CurrentImageNameService.class);
 
 	public void onModuleLoad() 
 	{
@@ -49,7 +49,7 @@ public class FotoStream implements EntryPoint
 			@Override
 			public void run() 
 			{
-				imageURLService.getCurrentImageURL(new AsyncCallback<String>()
+				imageNameService.getCurrentImageName(new AsyncCallback<String>()
 				{
 					@Override
 					public void onFailure(Throwable caught) 
@@ -60,10 +60,7 @@ public class FotoStream implements EntryPoint
 					@Override
 					public void onSuccess(String result) 
 					{
-						if (result != image.getUrl())
-						{
-							image.setUrl(result);
-						}
+						image.setUrl("image?name=" + result);
 					}			
 				});
 			}	
